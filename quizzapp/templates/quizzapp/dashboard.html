@@ -1,0 +1,93 @@
+{% extends 'quizzapp/base.html' %}
+
+{% block stylesheet %}
+<style>
+.panel-default > .panel-heading {background-color:#ffffff;padding-top:5px;padding-bottom:5px;}
+.panel-body {padding-top:8px;padding-bottom:5px;}
+.panel-footer {background-color:#ffffff}
+.round {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #222;
+    color: #FFF;
+    text-align: center;
+    margin-right:15px;
+}
+<!--.round.round-lg {-->
+    <!--height: 40px;-->
+    <!--width: 40px;-->
+    <!--line-height: 40px;-->
+    <!-- -moz-border-radius: 20px;-->
+    <!--border-radius: 20px;-->
+    <!--font-size: 1.5em;-->
+<!--}-->
+.round.blue {
+    background-color: #3EA6CE;
+}
+</style>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(document).ready(function()
+{
+    $("input").click(function() {
+    var option_id = $(this).val();
+    var question_id = $(this).closest("form").attr('id');
+
+        $.ajax({
+        url: '{% url 'quizzapp:save_answer' %}',
+        type: 'get',
+        data: {
+          'option_id': option_id,
+          'question_id': question_id
+        },
+        dataType: 'json',
+        success: function (data) {
+        if(data.already_answered)
+        {
+                    alert(data.error_message);
+        }
+        else
+        {
+            $(this).prop('checked', true)
+        }
+
+        }
+      });
+    });
+
+});
+
+
+</script>
+{% endblock %}
+
+
+{% block content %}
+
+                <div class="panel-group">
+                    {% for que in quizz1_q_set %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><h4><strong style="word-wrap: break-word;">{{ que.question_text }}</strong></h4></div>
+                            <form id="{{ que.id }}">
+                            {% for option in que.options.all %}
+                                <div class="panel-body">
+                                    <input type="radio" name="option" class="radioBtnClass" value="{{ option.id }}">
+                                    <p class="text-justify" style="word-wrap: break-word;text-align: justify;text-justify: inter-word;text-indent:2cm;">{{ option.option_text }}</p>
+                                </div>
+                                <!--<button  style="align-right" id="{{que.id}}" type="button" class="btn btn-default" >Save</button>-->
+                            {% endfor %}
+                            </form>
+                        </div>
+                    {% endfor %}
+                    <button class="btn btn-default" type="button">Submit</button>
+                </div>
+
+{% endblock %}
+

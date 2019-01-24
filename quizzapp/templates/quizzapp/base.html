@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block head %}Bootstrap Example{% endblock %}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+     {% block javascript %} {% endblock %}
+  <style>
+  body {padding-top: 90px;}
+ .navbar-brand {height:70px; padding:25px;font-size:30px;font-family: "Arial Black", Gadget, sans-serif;}
+  .navbar-nav > li > a {padding-top:25px !important; padding-bottom:25px !important;}
+.navbar {min-height:70px !important}
+ <!--.form-control {width:100%}-->
+  </style>
+    {% block stylesheet %}{% endblock %}
+</head>
+<body>
+
+<nav class="navbar  navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand"><strong style="color:#191970;">Quizz</strong></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li>Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a><span class="glyphicon glyphicon-user"></span> Hey Vishal </a></li>
+      <li><span class="glyphicon glyphicon-log-out"></span> Logout</li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+        <div class="row">
+            <nav class="col-sm-3">
+                <ul class="nav nav-pills nav-stacked" data-spy="affix">
+                    {% for quizz in quizzes %}
+                        <li><a href="{% url 'quizzapp:quizz_questions' quizz_id=quizz.id %}">{{ quizz.quizz_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            <div class="col-sm-9">
+
+              {% block content %}
+              {% endblock %}
+            </div>
+        </div>
+</div>
+</body>
+</html>
