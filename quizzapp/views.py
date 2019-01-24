@@ -1,6 +1,7 @@
+from collections import defaultdict
+
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, HttpResponse
-from django.urls import reverse
 
 from .models import User, Question, Quizz, Option, Userquizzdetails, \
                     Leaderboard
@@ -17,7 +18,15 @@ def dashboard(request):
 def quizz_questions(request, quizz_id):
     quizz = Quizz.objects.get(id=quizz_id)
     quizz_questions = quizz.relatedq.all()
-    return render(request, 'quizzapp/dashboard.html', {'quizz1_q_set': quizz_questions})
+    user = User.objects.get(pk=1)
+    que_list = Userquizzdetails.objects.filter(user=user)
+    attempted = []
+    if que_list.exists():
+        attempted = [question.selected_answer.id for question in que_list]
+        print(attempted)
+    return render(request, 'quizzapp/dashboard.html', {'quizz_q_set': quizz_questions,
+                                                       'attempted': attempted
+                                                       })
 
 
 def save_answer(request):
@@ -26,15 +35,9 @@ def save_answer(request):
     question = Question.objects.get(pk=quen_id)
     selected_option = Option.objects.get(pk=opt_id)
     user = User.objects.get(pk=1)
-
-    quizz_detail, created = Userquizzdetails.objects.get_or_create(
-        user=user,
-        question_no=question,
-    )
-
-    user_score, new_obj = Leaderboard.objects.get_or_create(
-        user=user,
-    )
+    quizz_detail, created = Userquizzdetails.objects.get_or_create(user=user,
+                                                                   question_no=question)
+    user_score, new_obj = Leaderboard.objects.get_or_create(user=user)
     data = {
         'already_answered': False,
     }
@@ -48,3 +51,11 @@ def save_answer(request):
         data['already_answered'] = True,
         data['error_message'] = "You have already answered this question"
     return JsonResponse(data)
+
+
+def leaderboard(request):
+    lead_b = Leaderboard.objects.order_by('-score')
+    context = {'leaderboard': lead_b}
+    return render(request, 'quizzapp/leaderboard.html',
+                  context)
+

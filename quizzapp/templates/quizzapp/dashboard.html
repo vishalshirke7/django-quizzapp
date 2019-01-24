@@ -72,21 +72,24 @@ $(document).ready(function()
 {% block content %}
 
                 <div class="panel-group">
-                    {% for que in quizz1_q_set %}
+                    {% for que in quizz_q_set %}
                         <div class="panel panel-default">
                             <div class="panel-heading"><h4><strong style="word-wrap: break-word;">{{ que.question_text }}</strong></h4></div>
                             <form id="{{ que.id }}">
                             {% for option in que.options.all %}
                                 <div class="panel-body">
+                                    {% if option.id in attempted %}
+                                    <input type="radio" name="option" class="radioBtnClass" checked value="{{ option.id }}">
+                                    {% else %}
                                     <input type="radio" name="option" class="radioBtnClass" value="{{ option.id }}">
+                                    {% endif %}
                                     <p class="text-justify" style="word-wrap: break-word;text-align: justify;text-justify: inter-word;text-indent:2cm;">{{ option.option_text }}</p>
                                 </div>
-                                <!--<button  style="align-right" id="{{que.id}}" type="button" class="btn btn-default" >Save</button>-->
                             {% endfor %}
                             </form>
                         </div>
                     {% endfor %}
-                    <button class="btn btn-default" type="button">Submit</button>
+                    <button class="btn btn-primary" type="button">Submit</button>
                 </div>
 
 {% endblock %}

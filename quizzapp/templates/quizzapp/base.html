@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block head %}Bootstrap Example{% endblock %}</title>
+  <title>{% block head %}Quizz App{% endblock %}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -22,10 +22,11 @@
 <nav class="navbar  navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand"><strong style="color:#191970;">Quizz</strong></a>
+      <a class="navbar-brand"><strong style="color:#191970;">Quizz App</strong></a>
     </div>
     <ul class="nav navbar-nav">
       <li>Home</a></li>
+      <li><a href="{% url 'quizzapp:leaderboard' %}">Leaderboard</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li><a><span class="glyphicon glyphicon-user"></span> Hey Vishal </a></li>

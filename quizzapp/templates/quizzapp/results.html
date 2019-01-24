@@ -1,0 +1,50 @@
+{% extends 'quizzapp/base.html' %}
+
+{% block stylesheet %}
+<style>
+.well {margin-bottom:0px;margin-top:27px;border-radius:0;border:0.5px none;background-color:#FFFFFF}
+.list-group > li {margin-bottom: 20px;border:0 none}
+#head {font-family: "Arial Black", Gadget, sans-serif;color:lightsteelgrey;}
+#head1 {font-family: "Arial Black", Gadget, sans-serif;color:lightsteelgrey;}
+
+.numberCircle {
+    width: 60px;
+    margin-left:19px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 32px;
+    border: 2px solid #666;
+}
+.round {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    background-color: #222;
+    color: #FFF;
+    text-align: center;
+    margin-right:15px;
+}
+.round.blue {
+    background-color: #3EA6CE;
+}
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+                <div class="container-fluid">
+                    <div class="well"><h3 id="head1" style="word-wrap: break-word;">{{qun_id.question}}</a></h3></div>
+                    <h3 style="padding:19px;">Total Upvotes</h3>
+                    <div  class="numberCircle">{{qun_id.total_upvotes}}</div>
+
+                </div>
+
+
+{% endblock %}
+
