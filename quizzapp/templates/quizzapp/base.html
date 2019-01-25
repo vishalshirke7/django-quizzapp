@@ -29,7 +29,7 @@
       <li><a href="{% url 'quizzapp:leaderboard' %}">Leaderboard</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-        <li><a><span class="glyphicon glyphicon-user"></span> Hey Vishal </a></li>
+        <li><a><span class="glyphicon glyphicon-user"></span> {{ user.email }} </a></li>
       <li><span class="glyphicon glyphicon-log-out"></span> Logout</li>
     </ul>
   </div>
@@ -43,6 +43,7 @@
                     {% endfor %}
                 </ul>
             </nav>
+
             <div class="col-sm-9">
 
               {% block content %}
@@ -50,5 +51,6 @@
             </div>
         </div>
 </div>
+
 </body>
 </html>

@@ -1,14 +1,75 @@
-from collections import defaultdict
-
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 
 from .models import User, Question, Quizz, Option, Userquizzdetails, \
                     Leaderboard
+from quizzproject import settings
+from .decorators import myuser_login_required
 
 
-def login(request):
-    return HttpResponse("Hey you are doing good!")
+# def login(request):
+#     """
+#     Base function to login a user using google
+#     :return:
+#     """
+#     if 'user_id' in request.session.keys():
+#         print("WHy the hell session is not persisting between two tabs")
+#         return HttpResponseRedirect(reverse('quizzapp:dashboard'))
+#     google = OAuth2Session(
+#         settings.CLIENT_ID,
+#         redirect_uri=settings.REDIRECT_URI,
+#         scope=settings.SCOPE)
+#     auth_url, state = google.authorization_url(
+#         settings.AUTH_URI, access_type="offline")
+#     request.session['oauth_state'] = state
+#     return HttpResponseRedirect(auth_url)
+#     # return render(request, 'quizzapp/login.html', {'auth_url': auth_url})
+
+#
+# def callback(request):
+#     """
+#     Callback method for gmail login. Whenever a user enter credentials for his/her
+#     gmail account, the page is redirected using this method for obtaining a access token
+#     for making requests to gmail API
+#     """
+#     if 'user_id' in request.session.keys():
+#         return HttpResponseRedirect(reverse('quizzapp:dashboard'))
+#     if 'error' in request.args:
+#         if request.args.get('error') == 'access_denied':
+#             return 'You denied access.'
+#         return 'Error encountered.'
+#     if 'code' not in request.args and 'state' not in request.args:
+#         return HttpResponseRedirect(reverse('quizzapp:login'))
+#     else:
+#         google = OAuth2Session(settings.CLIENT_ID, state=request.args['state'],
+#                                redirect_uri=settings.REDIRECT_URI)
+#         try:
+#             token = google.fetch_token(
+#                 settings.TOKEN_URI,
+#                 client_secret=settings.CLIENT_SECRET,
+#                 authorization_response=request.url)
+#         except HTTPError:
+#             return 'HTTPError occurred.'
+#         google = OAuth2Session(settings.CLIENT_ID, token=token)
+#         resp = google.get(settings.USER_INFO)
+#         # print(resp)
+#         if resp.status_code == 200:
+#             user_data = resp.json()
+#             email = user_data['email']
+#             user = User.objects.filter(email=email).first()
+#             if user is None:
+#                 user = User()
+#                 user.email = email
+#             user.name = user_data['name']
+#             # print(token)
+#             # store = file.Storage('/tokens/'+user.email+'.txt')
+#             # store.put(token)
+#             user.tokens = json.dumps(token)
+#             # db.session.add(user)
+#             # db.session.commit()
+#             request.session['user_id'] = user.id
+#             return HttpResponseRedirect(reverse('quizzapp:dashboard'))
+#         return 'Could not fetch your information.'
 
 
 def dashboard(request):

@@ -1,7 +1,8 @@
 from django.contrib import admin
 
-from . models import User, Question, Quizz, \
+from . models import User, Question, Quizz,\
     Option, Userquizzdetails, Leaderboard
+from .models import User
 
 
 admin.site.register(User)
