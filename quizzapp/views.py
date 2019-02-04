@@ -13,7 +13,6 @@ from .decorators import myuser_login_required
 #     :return:
 #     """
 #     if 'user_id' in request.session.keys():
-#         print("WHy the hell session is not persisting between two tabs")
 #         return HttpResponseRedirect(reverse('quizzapp:dashboard'))
 #     google = OAuth2Session(
 #         settings.CLIENT_ID,
